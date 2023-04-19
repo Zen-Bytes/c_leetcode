@@ -9,30 +9,28 @@ Note: Assume we are dealing with an environment that could only store integers w
 
 */
 
-nt divide(int dividend, int divisor){
+int divide(int dividend, int divisor){
         if (dividend == INT_MIN && divisor == -1) {
         return INT_MAX;
     }
 
-    // Calculate absolute values of dividend and divisor
     int sign = (dividend < 0) ^ (divisor < 0) ? -1 : 1;
-    long long absDividend = llabs((long long)dividend);
-    long long absDivisor = llabs((long long)divisor);
+    long long abs_dividend = llabs((long long)dividend);
+    long long abs_divisor = llabs((long long)divisor);
 
-    // Edge case: dividend is smaller than divisor
-    if (absDividend < absDivisor) {
+    if (abs_dividend < abs_divisor) {
         return 0;
     }
 
-    // Perform long division
-    long long quotient = 0;
-    long long temp = 0;
+    // long division
+    long long q = 0;
+    long long x = 0;
     for (int i = 31; i >= 0; i--) {
-        if ((temp + (absDivisor << i)) <= absDividend) {
-            temp += absDivisor << i;
-            quotient |= 1LL << i;
+        if ((x + (abs_divisor << i)) <= abs_dividend) {
+            x += abs_divisor << i;
+            q |= 1LL << i;
         }
     }
 
-    return sign * (double)quotient;
+    return sign * (double)q;
 }
